@@ -1,0 +1,53 @@
+### LogIn
+POST http://127.0.0.1:8000/api/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "xcrii@example.com",
+    "password": "password"
+}
+
+### Logout
+POST http://127.0.0.1:8000/api/logout
+Accept: application/json
+Authorization: bearer
+
+### Get All User
+GET http://127.0.0.1:8000/api/users
+Accept: application/json
+Authorization: bearer 
+
+
+### CRUD (Create, Update, Delete) ###
+
+### Create User
+POST http://127.0.0.1:8000/api/users
+Accept: application/json
+Content-Type: application/json
+Authorization: bearer 
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password",
+    "role": "user",
+    "avatar": null
+}
+
+### Update User
+PUT http://127.0.0.1:8000/api/users/2
+Accept: application/json
+Content-Type: application/json
+Authorization: bearer 
+
+{
+    "name": "John Smith",
+    "email": "johnsmith@example.com",
+    "role": "admin",
+    "avatar": null
+}
+
+### Delete User
+DELETE http://127.0.0.1:8000/api/users/2
+Accept: application/json
+Authorization: bearer 
