@@ -1,15 +1,18 @@
 # Laravel Breeze - Next.js v14 Edition with TypeScript 🏝️
+
 ## Introduction
 
 ---
+
 **This repository is a refactor of [breeze-next](https://github.com/laravel/breeze-next) by changing programing language from [JavaScript](https://www.javascript.com/) to [TypeScript](https://www.typescriptlang.org/)**
 
-**This used NextJS Version 14**
+**This used NextJS Version 16**
 
 ### Little extras
-* Add Formik Validation
-* Next Features inside app folder
-* Add Route Group
+
+- Add Formik Validation
+- Next Features inside app folder
+- Add Route Group
 
 ---
 
@@ -56,5 +59,6 @@ npm run dev
 
 ## License
 
-Laravel Breeze Next.js v14 is open-sourced software licensed under the [MIT license](LICENSE.md).
+Laravel Breeze Next.js v16 is open-sourced software licensed under the [MIT license](LICENSE.md).
+
 # next-frontend
