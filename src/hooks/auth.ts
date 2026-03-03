@@ -54,7 +54,7 @@ export const useAuth = ({
     }) => {
         try {
             await csrf()
-            await axios.post('/api/auth/login', data)
+            await axios.post('/login', data)
             mutate()
         } catch (error) {
             throw error
@@ -101,7 +101,7 @@ export const useAuth = ({
 
     const logout = async () => {
         if (!error) {
-            await axios.post('/api/auth/logout').then(() => mutate())
+            await axios.post('/logout').then(() => mutate())
         }
 
         window.location.pathname = '/login'
