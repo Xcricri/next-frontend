@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form"
 
 import * as Yup from 'yup'
 import React, { useState } from "react"
+import Image from "next/image"
 
 import { useCreateUser } from "@/hooks/use-data-user"
 
@@ -29,7 +30,7 @@ interface CreateUserFormValues {
     email: string
     password: string
     role: "user" | "admin"
-    avatar: FileList
+    avatar?: FileList
 }
 
 const createUserSchema = Yup.object().shape({
@@ -153,10 +154,12 @@ export function CreateUserForm({ ...props }: React.ComponentProps<typeof Card>) 
                             {preview && (
                                 <div className="mt-4">
                                     <p className="text-sm mb-2 text-gray-500">Preview:</p>
-                                    <img
+                                    <Image
                                         src={preview}
+                                        width={96}
+                                        height={96}
                                         alt="Avatar preview"
-                                        className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
+                                        className="rounded-full object-cover border-2 border-gray-200"
                                     />
                                 </div>
                             )}

@@ -5,7 +5,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -22,6 +21,8 @@ import { EditUserDialog } from "./EditUserDialog"
 
 import { useGetAllUser } from "@/hooks/use-data-user"
 import { useDeleteUser } from "@/hooks/use-data-user"
+
+import Image from "next/image"
 
 // Badge sesuai role
 const RoleBadge = ({ role }: { role: string }) => {
@@ -43,16 +44,29 @@ const RoleBadge = ({ role }: { role: string }) => {
     )
 }
 
+import { UserType } from "@/types/User"
+
 export function TableUser() {
 
     // State
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-    const [selectedUser, setSelectedUser] = useState<any>(undefined)
+    const [selectedUser, setSelectedUser] = useState<UserType | undefined>(undefined)
 
-    const handleEdit = (user: any) => {
+    const handleEdit = (user: UserType) => {
         setSelectedUser(user)
         setIsEditDialogOpen(true)
     }
+
+    const { deleteUser } = useDeleteUser()
+
+    const handleDelete = async (id: string) => {
+        try {
+            await deleteUser(id); // tinggal panggil
+            console.log("User deleted");
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const { users, error, isLoading } = useGetAllUser()
 
@@ -78,7 +92,7 @@ export function TableUser() {
 
                 {/* Body */}
                 <TableBody>
-                    {users?.map((user: any) => (
+                    {users?.map((user: UserType) => (
                         <TableRow key={user.id}>
                             {/* nomor */}
                             <TableCell>{user.id}</TableCell>
@@ -92,10 +106,13 @@ export function TableUser() {
                             {/* Avatar */}
                             <TableCell>
                                 {user?.avatar ? (
-                                    <img
-                                        className="h-10 w-10 rounded-full object-cover"
-                                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${user.avatar}`}
-                                        alt={user.name}
+                                    <Image
+                                        src={`http://localhost:8000/storage/${user.avatar}`}
+                                        width={40}
+                                        height={40}
+                                        alt="Picture of the author"
+                                        className="rounded-full object-cover"
+                                        unoptimized
                                     />
                                 ) : (
                                     <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
@@ -122,7 +139,7 @@ export function TableUser() {
                                         </DropdownMenuItem>
                                         <DropdownMenuItem className="text-red-500" onClick={() => {
                                             if (confirm("Are you sure you want to delete this user?")) {
-                                                useDeleteUser().deleteUser(user.id)
+                                                handleDelete(user.id.toString());
                                             }
                                         }}>
                                             Delete
@@ -132,8 +149,8 @@ export function TableUser() {
                             </TableCell>
                         </TableRow>
                     ))}
-                </TableBody>
-            </Table>
+                </TableBody >
+            </Table >
             <EditUserDialog
                 isEditDialogOpen={isEditDialogOpen}
                 setIsEditDialogOpen={setIsEditDialogOpen}

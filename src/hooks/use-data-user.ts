@@ -7,6 +7,7 @@ export function useGetAllUser() {
     const { data, error, isLoading } = useSWR("/api/users", async () => {
         const response = await axios.get("/api/users");
         return response.data.data;
+
     });
 
     return {
@@ -17,7 +18,7 @@ export function useGetAllUser() {
 }
 
 // Fungsi ambil data sesuai id
-export function usegetUserById(id: string) {
+export function useGetUserById(id: string) {
     const { data, error, isLoading } = useSWR(`/api/users/${id}`, async () => {
         const response = await axios.get(`/api/users/${id}`);
         return response.data.data;

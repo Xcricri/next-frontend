@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 import NavLink from '@/components/NavLink'
@@ -122,11 +123,18 @@ const Navigation = ({ user }: { user: UserType }) => {
             {/* Responsive Navigation Menu */}
             {open && (
                 <div className="block sm:hidden">
-                    <div className="pt-2 pb-3 space-y-1">
+                    <div className="pt-2 pb-2 space-y-1">
                         <ResponsiveNavLink
                             href="/dashboard"
                             active={pathname === '/dashboard'}>
                             Dashboard
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-2 space-y-1">
+                        <ResponsiveNavLink
+                            href="/users"
+                            active={pathname === '/users'}>
+                            User
                         </ResponsiveNavLink>
                     </div>
 
@@ -135,10 +143,13 @@ const Navigation = ({ user }: { user: UserType }) => {
                         <div className="flex items-center px-4">
                             <div className="shrink-0">
                                 {user?.avatar ? (
-                                    <img
-                                        className="h-10 w-10 rounded-full object-cover"
-                                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${user.avatar}`}
-                                        alt={user.name}
+                                    <Image
+                                        src={`http://localhost:8000/storage/${user.avatar}`}
+                                        width={40}
+                                        height={40}
+                                        alt="Picture of the author"
+                                        className="rounded-full object-cover"
+                                        unoptimized
                                     />
                                 ) : (
                                     <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
