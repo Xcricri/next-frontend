@@ -1,8 +1,9 @@
 import useSWR from 'swr'
 import axios from '@/lib/axios'
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
 import { useRouter, useParams } from 'next/navigation'
+
 
 export const useAuth = ({
     middleware,
@@ -13,6 +14,7 @@ export const useAuth = ({
 }) => {
     const router = useRouter()
     const params = useParams()
+    const [isLoggingOut, setIsLoggingOut] = useState(false)
 
     const {
         data: user,
@@ -23,9 +25,7 @@ export const useAuth = ({
             .get('/api/user')
             .then(res => res.data)
             .catch(error => {
-                if (error.response.status !== 409) throw error
-
-                router.push('/verify-email')
+                if (error.response?.status !== 409) throw error
             }),
     )
 
@@ -99,13 +99,21 @@ export const useAuth = ({
         }
     }
 
-    const logout = async () => {
-        if (!error) {
-            await axios.post('/logout').then(() => mutate())
+    const logout = useCallback(async () => {
+        if (!isLoggingOut) {
+            setIsLoggingOut(true)
+            try {
+                await axios.post('/logout')
+                mutate(null, false)
+            } catch (nothing) {
+                // Ignore errors
+                return null
+            } finally {
+                router.push('/login')
+            }
         }
 
-        window.location.pathname = '/login'
-    }
+    }, [router, mutate, isLoggingOut])
 
     useEffect(() => {
         if (middleware === 'guest' && redirectIfAuthenticated && user) {
@@ -113,14 +121,16 @@ export const useAuth = ({
         }
 
         if (
-            window.location.pathname === '/verify-email' &&
+            params?.path === '/verify-email' &&
             user?.email_verified_at &&
             redirectIfAuthenticated
         ) {
             router.push(redirectIfAuthenticated)
         }
-        if (middleware === 'auth' && error) logout()
-    }, [user, error, middleware, redirectIfAuthenticated])
+        if (middleware === 'auth' && error?.response?.status === 401) {
+            logout()
+        }
+    }, [user, error, middleware, redirectIfAuthenticated, logout, router])
 
     return {
         user,
