@@ -1,5 +1,5 @@
-import useSWRMutation from "swr/mutation";
 import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 import axios from "@/lib/axios";
 
 // Fungsi ambil semua data
@@ -30,6 +30,10 @@ export function useGetUserById(id: string) {
         isLoading,
     };
 }
+
+
+// CUD (create, update, delete) //
+
 
 // Fungsi create user
 export function useCreateUser() {

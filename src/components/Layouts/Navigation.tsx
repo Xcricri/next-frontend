@@ -55,6 +55,10 @@ const Navigation = ({ user }: { user: UserType }) => {
                             <NavLink href="/users" active={pathname === '/users'}>
                                 Users
                             </NavLink>
+
+                            <NavLink href="/pages" active={pathname === '/pages'}>
+                                Pages
+                            </NavLink>
                         </div>
                     </div>
 
@@ -135,6 +139,13 @@ const Navigation = ({ user }: { user: UserType }) => {
                             href="/users"
                             active={pathname === '/users'}>
                             User
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-2 space-y-1">
+                        <ResponsiveNavLink
+                            href="/pages"
+                            active={pathname === '/pages'}>
+                            Pages
                         </ResponsiveNavLink>
                     </div>
 

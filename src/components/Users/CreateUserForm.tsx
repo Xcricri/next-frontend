@@ -43,16 +43,14 @@ const createUserSchema = Yup.object().shape({
         .oneOf(["user", "admin"], "Invalid role")
         .required("Role is required"),
     avatar: Yup.mixed()
-        .test("required", "Avatar is required", (value) => {
-            return value instanceof FileList && value.length > 0;
-        })
+        .nullable()
         .test("fileSize", "Max size is 2MB", (value) => {
-            const files = value as FileList;
-            return files && files[0]?.size <= 2000000;
+            if (!value || !(value instanceof FileList) || value.length === 0) return true;
+            return value[0].size <= 2000000;
         })
         .test("fileType", "Supported formats: JPG, PNG", (value) => {
-            const files = value as FileList;
-            return files && ["image/jpeg", "image/png", "image/jpg"].includes(files[0]?.type);
+            if (!value || !(value instanceof FileList) || value.length === 0) return true;
+            return ["image/jpeg", "image/png", "image/jpg"].includes(value[0].type);
         }),
 })
 

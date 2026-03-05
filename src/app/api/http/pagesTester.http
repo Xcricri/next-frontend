@@ -1,0 +1,157 @@
+### CRUD PAGES ###
+
+
+### Pages ###
+
+
+### Get All Pages
+GET http://127.0.0.1:8000/api/pages
+Accept: application/json
+
+### Get Page Detail
+GET http://127.0.0.1:8000/api/pages/{id}
+Accept: application/json
+
+
+### Create Page
+POST http://127.0.0.1:8000/api/pages
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+    "title": "About Us",
+    "slug": "about-us",
+    "content": "Ini halaman About Us",
+    "main_image_url": "http://example.com/image.jpg"
+}
+
+### Update Page
+PUT http://127.0.0.1:8000/api/pages/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+    "title": "About Company",
+    "slug": "about-company",
+    "content": "Updated content",
+    "main_image_url": "https://d1bpj0tv6vfxyp.cloudfront.net/articles/538508_2-3-2021_10-55-48.webp"
+}
+
+### Delete Page
+DELETE http://127.0.0.1:8000/api/pages/{id}
+Accept: application/json
+Authorization: Bearer
+
+
+### Service ###
+
+
+### Get All Services
+GET http://127.0.0.1:8000/api/services
+Accept: application/json
+
+
+### Create Service
+POST http://127.0.0.1:8000/api/services
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer
+
+{
+    "title": "Web Development",
+    "description": "Layanan pembuatan website profesional",
+    "icon_url": "fa-solid fa-code"
+}
+
+### Update Service
+PUT http://127.0.0.1:8000/api/services/{id}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer
+
+
+{
+    "title": "Web Development Updated",
+    "description": "Layanan pembuatan website profesional yang diperbarui",
+    "icon_url": "fa-solid fa-code"
+}
+
+### Delete Service
+DELETE http://127.0.0.1:8000/api/services/{id}
+Accept: application/json
+Authorization: Bearer
+
+
+### Portofolios ###
+
+
+### Get All Portfolios
+GET http://127.0.0.1:8000/api/portfolios
+Accept: application/json
+
+### Get Portfolio Detail
+GET http://127.0.0.1:8000/api/portfolios/{id}
+Accept: application/json
+
+### Create Portfolio
+POST http://127.0.0.1:8000/api/portfolios
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer
+
+{
+    "title": "Project Alpha",
+    "slug": "project-alpha",
+    "short_description": "Deskripsi singkat project alpha",
+    "full_content": "Deskripsi lengkap project alpha",
+    "main_image_url": "http://example.com/image.jpg",
+    "project_date": "2026-03-01"
+}
+
+### Update Portfolio
+PUT http://127.0.0.1:8000/api/portfolios/{id}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer
+
+{
+    "title": "Project A Updated",
+    "slug": "project-a-updated",
+    "short_description": "Deskripsi singkat update",
+    "full_content": "Deskripsi lengkap update",
+    "main_image_url": "http://example.com/project-a2.jpg",
+    "project_date": "2026-03-01"
+}
+
+###Delete Portfolio
+DELETE http://127.0.0.1:8000/api/portfolios/{id}
+Accept: application/json
+Authorization: Bearer
+
+
+### Messages ###
+
+
+### Submit Message
+POST http://127.0.0.1:8000/api/contact-messages
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "subject": "Pertanyaan",
+    "message": "Ini isi pesan"
+}
+
+### Get All Messages
+GET http://127.0.0.1:8000/api/contact-messages
+Accept: application/json
+Authorization: Bearer
+
+### Delete Message
+DELETE http://127.0.0.1:8000/api/contact-messages/{id}
+Accept: application/json
+Authorization: Bearer
