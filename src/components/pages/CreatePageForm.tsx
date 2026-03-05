@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from 'react-hook-form'
 import Image from 'next/image'
 
+// Type Create form
 interface CreatePageFormValues {
     title: string,
     slug: string,
@@ -20,6 +21,7 @@ interface CreatePageFormValues {
     main_image_url: FileList | null
 }
 
+// Yup Schema
 const createYupSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     slug: Yup.string().required("Slug is required"),
@@ -38,7 +40,8 @@ const createYupSchema = Yup.object().shape({
         }),
 })
 
-const CreatePageForm = ({ ...props }: React.ComponentProps<typeof Card>) => {
+// CreatePage function
+const CreatePageForm = () => {
     const { register,
         handleSubmit,
         formState: { errors }
@@ -46,13 +49,15 @@ const CreatePageForm = ({ ...props }: React.ComponentProps<typeof Card>) => {
         resolver: yupResolver(createYupSchema) as any
     })
 
+    // Preview state
     const [preview, setPreview] = useState<string | null>(null);
 
+    // Create Hook
     const { mutate: createPage } = useCreatePage()
 
     return (
         <>
-            <Card {...props}>
+            <Card>
                 <CardHeader>
                     <CardTitle>Create a page</CardTitle>
                     <CardDescription>
@@ -62,8 +67,10 @@ const CreatePageForm = ({ ...props }: React.ComponentProps<typeof Card>) => {
                 <CardContent>
                     <form
                         onSubmit={handleSubmit((data) => {
+                            // Create FormData object
                             const formData = new FormData()
 
+                            // Append form data
                             formData.append("title", data.title)
                             formData.append("slug", data.slug)
                             formData.append("content", data.content)

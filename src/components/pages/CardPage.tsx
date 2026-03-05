@@ -16,7 +16,7 @@ import { MoreHorizontalIcon } from "lucide-react"
 
 import { useRouter } from "next/navigation"
 
-export function PageCard() {
+export function CardPage() {
     const { data, error, isLoading } = useGetPages();
     const { deletePage } = useDeletePage();
 
@@ -64,7 +64,7 @@ export function PageCard() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuItem onClick={() => {
-                                        const href = `/pages/${page.id}/edit`;
+                                        const href = `/pages/edit/${page.id}`;
                                         router.push(href);
                                     }}>
                                         Edit
@@ -92,7 +92,7 @@ export function PageCard() {
                     </CardHeader>
 
                     <CardFooter>
-                        <Button className="w-full">
+                        <Button className="w-full" onClick={() => router.push(`/pages/index/${page.id}`)}>
                             View Page
                         </Button>
                     </CardFooter>

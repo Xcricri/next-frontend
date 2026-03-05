@@ -1,6 +1,6 @@
 'use client'
 
-import { PageCard } from "@/components/pages/PageCard"
+import { CardPage } from "@/components/pages/CardPage"
 import Link from "next/link"
 
 const Page = () => {
@@ -16,7 +16,7 @@ const Page = () => {
                 {/* Page List */}
                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-6 bg-white border-b border-gray-200">
-                        <PageCard />
+                        <CardPage />
                     </div>
                 </div>
             </div>

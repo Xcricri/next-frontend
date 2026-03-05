@@ -180,7 +180,9 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
 
                         </Field>
 
-                        <Button type="submit">Update Page</Button>
+                        <Button type="submit" disabled={isLoading}>
+                            Update Page
+                        </Button>
 
                     </FieldGroup>
                 </form>
