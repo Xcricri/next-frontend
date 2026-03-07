@@ -76,7 +76,7 @@ const CreatePageForm = () => {
                             formData.append("content", data.content)
 
                             if (data.main_image_url && data.main_image_url instanceof FileList && data.main_image_url.length > 0) {
-                                formData.append("main_image_url", data.main_image_url[0])
+                                formData.append("main_image", data.main_image_url[0])
                             }
 
                             createPage(formData)

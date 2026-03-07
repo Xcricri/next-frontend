@@ -53,7 +53,7 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
     const [preview, setPreview] = useState<string | null>(null);
 
     const currentImage = data?.main_image_url
-        ? `http://localhost:8000/storage/${data.main_image_url}`
+        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${data.main_image_url}`
         : null;
 
     useEffect(() => {
@@ -78,7 +78,7 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
         formData.append("content", form.content);
 
         if (form.main_image_url?.[0]) {
-            formData.append("main_image_url", form.main_image_url[0]);
+            formData.append("main_image", form.main_image_url[0]);
         }
 
         updatePage(pageId || "", formData);

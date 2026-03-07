@@ -1,5 +1,5 @@
 import React from "react"
-import { useGetPagesById } from "@/hooks/use-data-page"
+import { useGetPageBySlug } from "@/hooks/use-data-page"
 import Image from "next/image"
 
 import {
@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 
 const IndexPage = ({ pageId }: { pageId?: string }) => {
-    const { data, isLoading } = useGetPagesById(pageId || "")
+    const { data, isLoading } = useGetPageBySlug(pageId || "")
 
     if (isLoading)
         return (
@@ -55,7 +55,7 @@ const IndexPage = ({ pageId }: { pageId?: string }) => {
                 {data.main_image_url && (
                     <div className="px-6 pt-6">
                         <Image
-                            src={`http://localhost:8000/storage/${data.main_image_url}`}
+                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${data.main_image_url}`}
                             alt={data.title}
                             width={800}
                             height={400}
