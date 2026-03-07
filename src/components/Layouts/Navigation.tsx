@@ -48,15 +48,15 @@ const Navigation = ({ user }: { user: UserType }) => {
 
                         {/* Navigation Links */}
                         <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <NavLink href="/dashboard" active={pathname === '/dashboard'}>
+                            <NavLink href="/admin/dashboard" active={pathname === '/admin/dashboard'}>
                                 Dashboard
                             </NavLink>
 
-                            <NavLink href="/users" active={pathname === '/users'}>
+                            <NavLink href="/admin/users" active={pathname === '/admin/users'}>
                                 Users
                             </NavLink>
 
-                            <NavLink href="/pages" active={pathname === '/pages'}>
+                            <NavLink href="/admin/pages" active={pathname === '/admin/pages'}>
                                 Pages
                             </NavLink>
                         </div>
@@ -129,22 +129,22 @@ const Navigation = ({ user }: { user: UserType }) => {
                 <div className="block sm:hidden">
                     <div className="pt-2 pb-2 space-y-1">
                         <ResponsiveNavLink
-                            href="/dashboard"
-                            active={pathname === '/dashboard'}>
+                            href="/admin/dashboard"
+                            active={pathname === '/admin/dashboard'}>
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
                     <div className="pt-2 pb-2 space-y-1">
                         <ResponsiveNavLink
-                            href="/users"
-                            active={pathname === '/users'}>
-                            User
+                            href="/admin/users"
+                            active={pathname === '/admin/users'}>
+                            Users
                         </ResponsiveNavLink>
                     </div>
                     <div className="pt-2 pb-2 space-y-1">
                         <ResponsiveNavLink
-                            href="/pages"
-                            active={pathname === '/pages'}>
+                            href="/admin/pages"
+                            active={pathname === '/admin/pages'}>
                             Pages
                         </ResponsiveNavLink>
                     </div>

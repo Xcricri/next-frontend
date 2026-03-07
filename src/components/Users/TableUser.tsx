@@ -107,7 +107,7 @@ export function TableUser() {
                             <TableCell>
                                 {user?.avatar ? (
                                     <Image
-                                        src={`http://localhost:8000/storage/${user.avatar}`}
+                                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${user.avatar}`}
                                         width={40}
                                         height={40}
                                         alt="Picture of the author"

@@ -44,7 +44,7 @@ export function CardPage() {
                     {/* Image */}
                     <div className="relative aspect-video overflow-hidden">
                         <Image
-                            src={`http://localhost:8000/storage/${page.main_image_url}`}
+                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${page.main_image_url}`}
                             alt="Page cover"
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -64,7 +64,7 @@ export function CardPage() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuItem onClick={() => {
-                                        const href = `/pages/edit/${page.id}`;
+                                        const href = `/admin/pages/edit/${page.id}`;
                                         router.push(href);
                                     }}>
                                         Edit
@@ -92,7 +92,7 @@ export function CardPage() {
                     </CardHeader>
 
                     <CardFooter>
-                        <Button className="w-full" onClick={() => router.push(`/pages/index/${page.id}`)}>
+                        <Button className="w-full" onClick={() => router.push(`/admin/pages/index/${page.slug}`)}>
                             View Page
                         </Button>
                     </CardFooter>
