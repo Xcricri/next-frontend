@@ -1,17 +1,22 @@
 "use client";
 
 import React, { useState } from 'react'
+import Image from 'next/image'
+
+// Import Ui Component
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Field, FieldGroup, FieldLabel } from '../ui/field'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
-import * as Yup from 'yup'
 
-import { useCreatePage } from '@/hooks/use-data-page'
+// Import Libraries
+import * as Yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from 'react-hook-form'
-import Image from 'next/image'
+
+// import hook
+import { useCreatePage } from '@/hooks/use-data-page'
 
 // Type Create form
 interface CreatePageFormValues {
@@ -40,8 +45,9 @@ const createYupSchema = Yup.object().shape({
         }),
 })
 
-// CreatePage function
+
 const CreatePageForm = () => {
+    // Inisialisasi Form dari useForm
     const { register,
         handleSubmit,
         formState: { errors }
@@ -58,14 +64,18 @@ const CreatePageForm = () => {
     return (
         <>
             <Card>
+                {/* Header */}
                 <CardHeader>
                     <CardTitle>Create a page</CardTitle>
                     <CardDescription>
                         Enter your page information below
                     </CardDescription>
                 </CardHeader>
+
+                {/* Content */}
                 <CardContent>
                     <form
+                        // HandleSubmit function
                         onSubmit={handleSubmit((data) => {
                             // Create FormData object
                             const formData = new FormData()
@@ -74,7 +84,6 @@ const CreatePageForm = () => {
                             formData.append("title", data.title)
                             formData.append("slug", data.slug)
                             formData.append("content", data.content)
-
                             if (data.main_image_url && data.main_image_url instanceof FileList && data.main_image_url.length > 0) {
                                 formData.append("main_image", data.main_image_url[0])
                             }
@@ -121,6 +130,7 @@ const CreatePageForm = () => {
                                     })}
                                 />
                                 {errors.main_image_url && <p className="text-red-500 text-sm">{errors.main_image_url.message}</p>}
+
                                 {/* Tampilan Preview */}
                                 {preview && (
                                     <div className="mt-4">

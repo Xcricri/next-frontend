@@ -1,22 +1,28 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+
+// Import ui component
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import Image from "next/image";
 
+// Import libraries
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
+// Import hooks
 import { useUpdatePortofolio, useGetPortofolioById } from "@/hooks/use-data-portofolio";
 
+// immport utility                                                  
 import { getImageUrl } from "../../../function/Image";
 import { typePortoImage } from "@/types/PortofolioImage";
 
+// Interface form
 interface FormValues {
     title: string
     slug: string
@@ -25,6 +31,7 @@ interface FormValues {
     main_image_url: FileList | null
 }
 
+// Yup schema
 const schema = Yup.object({
     title: Yup.string().required("Title is required"),
     slug: Yup.string().required("Slug is required"),
@@ -43,6 +50,8 @@ const schema = Yup.object({
 });
 
 export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
+
+    // Inisialisasi form dari useForm
     const {
         register,
         handleSubmit,
@@ -52,13 +61,16 @@ export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
         resolver: yupResolver(schema) as any,
     });
 
+    // Fungsi dari custom hook
     const { updatePortofolio } = useUpdatePortofolio();
     const { data, isLoading } = useGetPortofolioById(pageId || "");
 
+    // State
     const [galleryImages, setGalleryImages] = useState<File[]>([]);
     const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
-
     const [preview, setPreview] = useState<string | null>(null);
+
+    // UseEffect untuk mengisi data
     useEffect(() => {
         if (!data) return;
 
@@ -68,12 +80,14 @@ export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
         setValue("full_content", data.full_content);
     }, [data, setValue]);
 
+    // UseEffect untuk priview gambar
     useEffect(() => {
         return () => {
             if (preview) URL.revokeObjectURL(preview);
         };
     }, [preview]);
 
+    // Submit form function
     const onSubmit: SubmitHandler<FormValues> = (form) => {
         const formData = new FormData();
 
@@ -92,18 +106,20 @@ export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
 
         updatePortofolio(pageId || "", formData);
     };
-
-    if (isLoading) return <p>Loading...</p>;
-
     const { onChange, ...fileInput } = register("main_image_url");
+
+    // Loading
+    if (isLoading) return <p>Loading...</p>;
 
     return (
         <Card>
+            {/* Header */}
             <CardHeader>
                 <CardTitle>Update Portofolio</CardTitle>
                 <CardDescription>Edit portofolio information</CardDescription>
             </CardHeader>
 
+            {/* Content */}
             <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FieldGroup>
@@ -215,6 +231,7 @@ export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
                                 }}
                             />
 
+                            {/* Gallery Image Previews */}
                             {galleryPreviews.length > 0 && (
                                 <div className="grid grid-cols-4 gap-2 mt-4">
                                     {galleryPreviews.map((src, i) => (
@@ -231,7 +248,7 @@ export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
                                 </div>
                             )}
 
-
+                            {/* Existing Gallery Images */}
                             {data?.images && data.images.length > 0 && (
                                 <div className="grid grid-cols-4 gap-2 mt-4">
                                     {data.images.map((img: typePortoImage) => (

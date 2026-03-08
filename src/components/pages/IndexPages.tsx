@@ -1,7 +1,7 @@
 import React from "react"
-import { useGetPageBySlug } from "@/hooks/use-data-page"
 import Image from "next/image"
 
+// Import Ui component
 import {
     Card,
     CardContent,
@@ -9,15 +9,21 @@ import {
     CardTitle,
     CardDescription,
 } from "@/components/ui/card"
-
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 
+// Import hook
+import { useGetPageBySlug } from "@/hooks/use-data-page"
+
+// Import custom function
 import { getImageUrl } from "../../../function/Image"
 
 const IndexPages = ({ pageId }: { pageId?: string }) => {
+
+    // State dari custom hook
     const { data, isLoading } = useGetPageBySlug(pageId || "")
 
+    // Loading && not found page
     if (isLoading)
         return (
             <div className="flex justify-center items-center py-20">

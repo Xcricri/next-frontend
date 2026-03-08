@@ -1,5 +1,7 @@
 import { useState } from "react"
+import Image from "next/image"
 
+// Import UI components
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -17,14 +19,12 @@ import {
 } from "@/components/ui/table"
 import { MoreHorizontalIcon } from "lucide-react"
 
+// Import custom components
 import { EditUserDialog } from "./EditUserDialog"
-
 import { useGetAllUser } from "@/hooks/use-data-user"
 import { useDeleteUser } from "@/hooks/use-data-user"
-
 import { getImageUrl } from "../../../function/Image"
-
-import Image from "next/image"
+import { UserType } from "@/types/User"
 
 // Badge sesuai role
 const RoleBadge = ({ role }: { role: string }) => {
@@ -46,21 +46,24 @@ const RoleBadge = ({ role }: { role: string }) => {
     )
 }
 
-import { UserType } from "@/types/User"
-
 export function TableUser() {
 
     // State
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
     const [selectedUser, setSelectedUser] = useState<UserType | undefined>(undefined)
 
+    // Get data
+    const { users, error, isLoading } = useGetAllUser()
+
+    // Handle edit function
     const handleEdit = (user: UserType) => {
         setSelectedUser(user)
         setIsEditDialogOpen(true)
     }
 
-    const { deleteUser } = useDeleteUser()
 
+    // Handle delete function
+    const { deleteUser } = useDeleteUser()
     const handleDelete = async (id: string) => {
         try {
             await deleteUser(id); // tinggal panggil
@@ -70,8 +73,7 @@ export function TableUser() {
         }
     };
 
-    const { users, error, isLoading } = useGetAllUser()
-
+    // Loading & error
     if (isLoading) return <div>Loading users...</div>
     if (error) return <div>Failed to load users.</div>
 
@@ -128,6 +130,8 @@ export function TableUser() {
 
                             {/* Tanggal dibuat */}
                             <TableCell>{new Date(user.created_at).toLocaleDateString()}</TableCell>
+
+                            {/* Actions */}
                             <TableCell className="text-right">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -153,6 +157,8 @@ export function TableUser() {
                     ))}
                 </TableBody >
             </Table >
+
+            {/* Edit User Dialog Component */}
             <EditUserDialog
                 isEditDialogOpen={isEditDialogOpen}
                 setIsEditDialogOpen={setIsEditDialogOpen}

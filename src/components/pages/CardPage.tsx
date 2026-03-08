@@ -1,3 +1,7 @@
+import { useRouter } from "next/navigation"
+import Image from 'next/image'
+
+// Import ui & icon component
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -6,24 +10,27 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-
-import { typePage } from '@/types/Page'
-import Image from 'next/image'
-import { useGetPages } from '@/hooks/use-data-page'
-import { useDeletePage } from "@/hooks/use-data-page"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { MoreHorizontalIcon } from "lucide-react"
 
+// Import type
+import { typePage } from '@/types/Page'
+
+// Import hooks
+import { useGetPages } from '@/hooks/use-data-page'
+import { useDeletePage } from "@/hooks/use-data-page"
+
+// Import utility functions
 import { getImageUrl } from "../../../function/Image"
 
-import { useRouter } from "next/navigation"
-
 export function CardPage() {
+    // State & function custom hook
     const { data, error, isLoading } = useGetPages();
     const { deletePage } = useDeletePage();
 
     const router = useRouter()
 
+    // Handle delete function
     const handleDelete = async (pageId: string) => {
         try {
             await deletePage(pageId);
@@ -32,13 +39,18 @@ export function CardPage() {
         }
     };
 
+    // Loading, error & not found
     if (isLoading) return <div className="text-center py-10">Loading...</div>;
     if (error) return <div className="text-center py-10 text-red-500">Error occurred while fetching pages.</div>;
     if (!data || data.length === 0) return <div className="text-center py-10">No pages found</div>;
 
     return (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+            {/* Mengambil data page */}
             {data.map((page: typePage) => (
+
+                // Card
                 <Card
                     key={page.id}
                     className="group overflow-hidden border-none shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
@@ -59,11 +71,14 @@ export function CardPage() {
                         {/* Dropdown */}
                         <div className="absolute right-3 top-3 z-20">
                             <DropdownMenu>
+                                {/* Trigger */}
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="secondary" size="icon" className="h-8 w-8 backdrop-blur-sm bg-white/70">
                                         <MoreHorizontalIcon className="h-4 w-4" />
                                     </Button>
                                 </DropdownMenuTrigger>
+
+                                {/* Content */}
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuItem onClick={() => {
                                         const href = `/admin/pages/edit/${page.id}`;
@@ -93,6 +108,7 @@ export function CardPage() {
                         </CardDescription>
                     </CardHeader>
 
+                    {/* Card footer */}
                     <CardFooter>
                         <Button className="w-full" onClick={() => router.push(`/admin/pages/index/${page.slug}`)}>
                             View Page

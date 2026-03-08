@@ -1,4 +1,6 @@
 'use client'
+
+// Other Import
 import { ReactNode } from 'react'
 import { useAuth } from '@/hooks/auth'
 import Navigation from '@/components/layouts/Navigation'
@@ -8,6 +10,7 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
 
     return (
         <div className="min-h-screen bg-gray-100">
+            {/* Navigation */}
             <Navigation user={user} />
 
             {/* Page Content */}

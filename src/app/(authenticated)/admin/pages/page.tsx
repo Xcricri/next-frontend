@@ -1,5 +1,6 @@
 'use client'
 
+// Other import 
 import { CardPage } from "@/components/pages/CardPage"
 import Link from "next/link"
 
@@ -7,6 +8,7 @@ const Page = () => {
     return (
         <div className="py-12">
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                {/* Create Page Button */}
                 <div className='flex mb-2 items-center justify-end'>
                     <Link href="/admin/pages/create" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Create Page

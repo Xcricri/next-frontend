@@ -2,6 +2,7 @@ import React from "react"
 import { useGetPortofolioBySlug } from "@/hooks/use-data-portofolio"
 import Image from "next/image"
 
+// Import Ui component
 import {
     Card,
     CardContent,
@@ -9,16 +10,20 @@ import {
     CardTitle,
     CardDescription,
 } from "@/components/ui/card"
-
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+
+// Import type
 import { typePortoImage } from "@/types/PortofolioImage"
 
+// Import function
 import { getImageUrl } from "../../../function/Image"
 
 const IndexPortofolios = ({ pageId }: { pageId?: string }) => {
+    // State dari custom hool
     const { data, isLoading } = useGetPortofolioBySlug(pageId || "")
 
+    // Loading & not found pages
     if (isLoading)
         return (
             <div className="flex justify-center items-center py-20">

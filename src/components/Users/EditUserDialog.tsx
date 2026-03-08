@@ -1,3 +1,4 @@
+// Import Ui component
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -11,9 +12,12 @@ import {
 import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
+// Other Import
 import { useUpdateUser } from "@/hooks/use-data-user"
 import { mutate } from "swr"
 
+// Interface dialog props
 interface EditUserDialogProps {
     isEditDialogOpen: boolean
     setIsEditDialogOpen: (open: boolean) => void
@@ -21,13 +25,18 @@ interface EditUserDialogProps {
 }
 
 export function EditUserDialog({ isEditDialogOpen, setIsEditDialogOpen, user }: EditUserDialogProps) {
+
+    // fungsi updateuser dari custom hook
     const { updateUser } = useUpdateUser()
 
+    // handle submit function
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
         if (!user?.id) return
 
         const formData = new FormData(e.currentTarget)
+
         if (!formData.has("role") && user.role) formData.append("role", user.role)
 
         try {
@@ -41,8 +50,11 @@ export function EditUserDialog({ isEditDialogOpen, setIsEditDialogOpen, user }: 
 
     return (
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+
+            {/* Content */}
             <DialogContent className="sm:max-w-sm">
                 <form onSubmit={handleSubmit}>
+                    {/* Header */}
                     <DialogHeader>
                         <DialogTitle>Edit profile</DialogTitle>
                         <DialogDescription>
@@ -50,6 +62,8 @@ export function EditUserDialog({ isEditDialogOpen, setIsEditDialogOpen, user }: 
                             done.
                         </DialogDescription>
                     </DialogHeader>
+
+                    {/* Form Fields */}
                     <div className="grid gap-4 py-4">
                         <FieldGroup>
                             <Field>
@@ -69,6 +83,8 @@ export function EditUserDialog({ isEditDialogOpen, setIsEditDialogOpen, user }: 
                             </Field>
                         </FieldGroup>
                     </div>
+
+                    {/* Dialog footer */}
                     <DialogFooter>
                         <DialogClose asChild>
                             <Button variant="outline" type="button">Cancel</Button>

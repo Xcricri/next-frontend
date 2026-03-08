@@ -1,3 +1,7 @@
+import { useRouter } from "next/navigation"
+import Image from 'next/image'
+
+// Import ui component & icon
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -6,24 +10,26 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-
-import { typePortofolio } from '@/types/Portofolio'
-import Image from 'next/image'
-import { useGetPortofolios } from '@/hooks/use-data-portofolio'
-import { useDeletePortofolio } from "@/hooks/use-data-portofolio"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { MoreHorizontalIcon } from "lucide-react"
 
-import { useRouter } from "next/navigation"
+// Import type & custom hook Portofolio
+import { typePortofolio } from '@/types/Portofolio'
+import { useGetPortofolios } from '@/hooks/use-data-portofolio'
+import { useDeletePortofolio } from "@/hooks/use-data-portofolio"
 
+// Import helper function
 import { getImageUrl } from "../../../function/Image"
 
 export function CardPortofolio() {
+
+    // State dari dari custom hook
     const { data, error, isLoading } = useGetPortofolios();
     const { deletePortofolio } = useDeletePortofolio();
 
     const router = useRouter()
 
+    // Handle delete function
     const handleDelete = async (portofolioId: string) => {
         try {
             await deletePortofolio(portofolioId);
@@ -32,12 +38,14 @@ export function CardPortofolio() {
         }
     };
 
+    // Loading, error & not found pages
     if (isLoading) return <div className="text-center py-10">Loading...</div>;
     if (error) return <div className="text-center py-10 text-red-500">Error occurred while fetching portofolios.</div>;
     if (!data || data.length === 0) return <div className="text-center py-10">No portofolios found</div>;
 
     return (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Mengambil semua data */}
             {data.map((portofolio: typePortofolio) => (
                 <Card
                     key={portofolio.id}
@@ -64,6 +72,7 @@ export function CardPortofolio() {
                                         <MoreHorizontalIcon className="h-4 w-4" />
                                     </Button>
                                 </DropdownMenuTrigger>
+
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuItem onClick={() => {
                                         const href = `/admin/portofolios/edit/${portofolio.id}`;
@@ -93,6 +102,7 @@ export function CardPortofolio() {
                         </CardDescription>
                     </CardHeader>
 
+                    {/* Footer */}
                     <CardFooter>
                         <Button className="w-full" onClick={() => router.push(`/admin/portofolios/index/${portofolio.slug}`)}>
                             View Portofolio

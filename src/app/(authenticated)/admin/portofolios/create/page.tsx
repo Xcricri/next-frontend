@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+// Component import
 import CreatePortofolioForm from '@/components/portofolios/CreatePortoPages'
 
 const Page = () => {

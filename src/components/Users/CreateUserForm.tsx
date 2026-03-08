@@ -1,5 +1,11 @@
 "use client"
+import React, { useState } from "react"
+import Image from "next/image"
 
+// Import create user Hook
+import { useCreateUser } from "@/hooks/use-data-user"
+
+// Import Ui component
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -16,15 +22,12 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
+// Random import 
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
-
 import * as Yup from 'yup'
-import React, { useState } from "react"
-import Image from "next/image"
 
-import { useCreateUser } from "@/hooks/use-data-user"
-
+// Interface form
 interface CreateUserFormValues {
     name: string
     email: string
@@ -33,6 +36,7 @@ interface CreateUserFormValues {
     avatar?: FileList
 }
 
+// Yup schema
 const createUserSchema = Yup.object().shape({
     name: Yup.string().required("Full name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -54,7 +58,10 @@ const createUserSchema = Yup.object().shape({
         }),
 })
 
+
 export function CreateUserForm({ ...props }: React.ComponentProps<typeof Card>) {
+
+    // Inisialiasi form 
     const {
         register,
         handleSubmit,
@@ -63,21 +70,24 @@ export function CreateUserForm({ ...props }: React.ComponentProps<typeof Card>) 
         resolver: yupResolver(createUserSchema) as any
     })
 
-
+    // state
     const [preview, setPreview] = useState<string | null>(null);
-
     const { mutate: createUser } = useCreateUser()
 
     return (
         <Card {...props}>
+            {/* Header */}
             <CardHeader>
                 <CardTitle>Create an account</CardTitle>
                 <CardDescription>
                     Enter your information below to create your account
                 </CardDescription>
             </CardHeader>
+
+            {/* Content */}
             <CardContent>
                 <form
+                    // Handle submit function
                     onSubmit={handleSubmit((data) => {
                         const formData = new FormData()
 
@@ -138,7 +148,7 @@ export function CreateUserForm({ ...props }: React.ComponentProps<typeof Card>) 
                                     onChange: (e) => {
                                         const file = e.target.files?.[0];
                                         if (file) {
-                                            // Buat URL preview
+                                            // Buat URL preview 
                                             const url = URL.createObjectURL(file);
                                             setPreview(url);
                                             return () => URL.revokeObjectURL(url);

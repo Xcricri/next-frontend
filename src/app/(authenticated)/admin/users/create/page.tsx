@@ -1,3 +1,6 @@
+"use client";
+
+// Import component
 import { CreateUserForm } from "@/components/users/CreateUserForm"
 
 export default function Page() {

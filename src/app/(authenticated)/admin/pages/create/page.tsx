@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+// Import Component
 import CreatePageForm from '@/components/pages/CreatePageForm'
 
 const Page = () => {

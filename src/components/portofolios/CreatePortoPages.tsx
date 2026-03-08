@@ -1,17 +1,20 @@
 "use client";
 
 import React, { useState } from 'react'
+import Image from 'next/image'
+
+// Import Ui component
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Field, FieldGroup, FieldLabel } from '../ui/field'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
-import * as Yup from 'yup'
 
+// import libraries
 import { useCreatePortofolio } from '@/hooks/use-data-portofolio';
-import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from 'react-hook-form'
-import Image from 'next/image'
+import * as Yup from 'yup'
+import { yupResolver } from "@hookform/resolvers/yup"
 
 // Type Create form
 interface CreatePortoFormValues {
@@ -44,6 +47,8 @@ const createYupSchema = Yup.object().shape({
 
 // CreatePortofolio function
 const CreatePortofolioForm = () => {
+
+    // Inisialisasi form
     const { register,
         handleSubmit,
         formState: { errors }
@@ -62,14 +67,19 @@ const CreatePortofolioForm = () => {
     return (
         <>
             <Card>
+                {/* Card Header */}
                 <CardHeader>
                     <CardTitle>Create a portofolio</CardTitle>
                     <CardDescription>
                         Enter your portofolio information below
                     </CardDescription>
                 </CardHeader>
+
+                {/* Card content */}
                 <CardContent>
+                    {/* form */}
                     <form
+                        // handle submit form function
                         onSubmit={handleSubmit((data) => {
                             // Create FormData object
                             const formData = new FormData()
@@ -79,7 +89,6 @@ const CreatePortofolioForm = () => {
                             formData.append("short_description", data.short_description)
                             formData.append("full_content", data.full_content)
                             formData.append("project_date", data.project_date)
-
                             if (data.main_image_url && data.main_image_url instanceof FileList && data.main_image_url.length > 0) {
                                 formData.append("main_image", data.main_image_url[0])
                             }
@@ -138,6 +147,7 @@ const CreatePortofolioForm = () => {
                                     })}
                                 />
                                 {errors.main_image_url && <p className="text-red-500 text-sm">{errors.main_image_url.message}</p>}
+
                                 {/* Tampilan Preview */}
                                 {preview && (
                                     <div className="mt-4">
@@ -170,6 +180,7 @@ const CreatePortofolioForm = () => {
                                     }}
                                 />
 
+                                {/* Gallery Previews */}
                                 {galleryPreviews.length > 0 && (
                                     <div className="mt-4 grid grid-cols-4 gap-2">
                                         {galleryPreviews.map((src, i) => (

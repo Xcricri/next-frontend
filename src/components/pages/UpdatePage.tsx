@@ -1,18 +1,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+
+// Import UI components
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import Image from "next/image";
 
+// Import libraries
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useUpdatePage, useGetPagesById } from "@/hooks/use-data-page";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
-import { useUpdatePage, useGetPagesById } from "@/hooks/use-data-page";
+// Import function
 import { getImageUrl } from "../../../function/Image";
 
 interface FormValues {
@@ -22,6 +26,7 @@ interface FormValues {
     main_image_url?: FileList;
 }
 
+// Yup schema
 const schema = Yup.object({
     title: Yup.string().required("Title is required"),
     slug: Yup.string().required("Slug is required"),
@@ -39,6 +44,8 @@ const schema = Yup.object({
 });
 
 export default function UpdatePageForm({ pageId }: { pageId?: string }) {
+
+    // Inisialisasi form
     const {
         register,
         handleSubmit,
@@ -48,11 +55,15 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
         resolver: yupResolver(schema) as any,
     });
 
+    // State
+    const [preview, setPreview] = useState<string | null>(null);
+
+    // State dari custom hook
     const { updatePage } = useUpdatePage();
     const { data, isLoading } = useGetPagesById(pageId || "");
 
-    const [preview, setPreview] = useState<string | null>(null);
 
+    // Use effect untuk mengisi data
     useEffect(() => {
         if (!data) return;
 
@@ -61,12 +72,14 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
         setValue("content", data.content);
     }, [data, setValue]);
 
+    // UseEffect untuk priview image
     useEffect(() => {
         return () => {
             if (preview) URL.revokeObjectURL(preview);
         };
     }, [preview]);
 
+    // Handle form submission function
     const onSubmit: SubmitHandler<FormValues> = (form) => {
         const formData = new FormData();
 
@@ -80,18 +93,21 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
 
         updatePage(pageId || "", formData);
     };
+    const { onChange, ...fileInput } = register("main_image_url");
 
+    // Render loading state
     if (isLoading) return <p>Loading...</p>;
 
-    const { onChange, ...fileInput } = register("main_image_url");
 
     return (
         <Card>
+            {/* Header */}
             <CardHeader>
                 <CardTitle>Update Page</CardTitle>
                 <CardDescription>Edit page information</CardDescription>
             </CardHeader>
 
+            {/* Content */}
             <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FieldGroup>

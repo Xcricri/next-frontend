@@ -1,10 +1,12 @@
 "use client"
 
+// Other import
 import React from 'react'
 import UpdatePageForm from '@/components/pages/UpdatePage'
 import { useParams } from 'next/navigation'
 
 const Page = () => {
+    // Ambil id dari parameter
     const params = useParams()
     const pageId = params.id as string
 
