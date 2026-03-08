@@ -22,6 +22,8 @@ import { EditUserDialog } from "./EditUserDialog"
 import { useGetAllUser } from "@/hooks/use-data-user"
 import { useDeleteUser } from "@/hooks/use-data-user"
 
+import { getImageUrl } from "../../../function/Image"
+
 import Image from "next/image"
 
 // Badge sesuai role
@@ -107,7 +109,7 @@ export function TableUser() {
                             <TableCell>
                                 {user?.avatar ? (
                                     <Image
-                                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${user.avatar}`}
+                                        src={getImageUrl(user.avatar)}
                                         width={40}
                                         height={40}
                                         alt="Picture of the author"

@@ -7,47 +7,47 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import { typePage } from '@/types/Page'
+import { typePortofolio } from '@/types/Portofolio'
 import Image from 'next/image'
-import { useGetPages } from '@/hooks/use-data-page'
-import { useDeletePage } from "@/hooks/use-data-page"
+import { useGetPortofolios } from '@/hooks/use-data-portofolio'
+import { useDeletePortofolio } from "@/hooks/use-data-portofolio"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { MoreHorizontalIcon } from "lucide-react"
 
-import { getImageUrl } from "../../../function/Image"
-
 import { useRouter } from "next/navigation"
 
-export function CardPage() {
-    const { data, error, isLoading } = useGetPages();
-    const { deletePage } = useDeletePage();
+import { getImageUrl } from "../../../function/Image"
+
+export function CardPortofolio() {
+    const { data, error, isLoading } = useGetPortofolios();
+    const { deletePortofolio } = useDeletePortofolio();
 
     const router = useRouter()
 
-    const handleDelete = async (pageId: string) => {
+    const handleDelete = async (portofolioId: string) => {
         try {
-            await deletePage(pageId);
+            await deletePortofolio(portofolioId);
         } catch (error) {
-            console.error("Error occurred while deleting page:", error);
+            console.error("Error occurred while deleting portofolio:", error);
         }
     };
 
     if (isLoading) return <div className="text-center py-10">Loading...</div>;
-    if (error) return <div className="text-center py-10 text-red-500">Error occurred while fetching pages.</div>;
-    if (!data || data.length === 0) return <div className="text-center py-10">No pages found</div>;
+    if (error) return <div className="text-center py-10 text-red-500">Error occurred while fetching portofolios.</div>;
+    if (!data || data.length === 0) return <div className="text-center py-10">No portofolios found</div>;
 
     return (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {data.map((page: typePage) => (
+            {data.map((portofolio: typePortofolio) => (
                 <Card
-                    key={page.id}
+                    key={portofolio.id}
                     className="group overflow-hidden border-none shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                 >
                     {/* Image */}
                     <div className="relative aspect-video overflow-hidden">
                         <Image
-                            src={getImageUrl(page.main_image_url)}
-                            alt="Page cover"
+                            src={getImageUrl(portofolio.main_image_url)}
+                            alt="Portofolio cover"
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                             unoptimized
@@ -66,14 +66,14 @@ export function CardPage() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuItem onClick={() => {
-                                        const href = `/admin/pages/edit/${page.id}`;
+                                        const href = `/admin/portofolios/edit/${portofolio.id}`;
                                         router.push(href);
                                     }}>
                                         Edit
                                     </DropdownMenuItem>
                                     <DropdownMenuItem className="text-red-500" onClick={() => {
-                                        if (confirm("Are you sure you want to delete this page?")) {
-                                            handleDelete(page.id.toString());
+                                        if (confirm("Are you sure you want to delete this portofolio?")) {
+                                            handleDelete(portofolio.id.toString());
                                         }
                                     }}>
                                         Delete
@@ -86,16 +86,16 @@ export function CardPage() {
                     {/* Content */}
                     <CardHeader className="space-y-2">
                         <CardTitle className="text-lg font-semibold line-clamp-1">
-                            {page.title}
+                            {portofolio.title}
                         </CardTitle>
                         <CardDescription className="line-clamp-2 text-sm text-muted-foreground">
-                            {page.content}
+                            {portofolio.short_description}
                         </CardDescription>
                     </CardHeader>
 
                     <CardFooter>
-                        <Button className="w-full" onClick={() => router.push(`/admin/pages/index/${page.slug}`)}>
-                            View Page
+                        <Button className="w-full" onClick={() => router.push(`/admin/portofolios/index/${portofolio.slug}`)}>
+                            View Portofolio
                         </Button>
                     </CardFooter>
                 </Card>

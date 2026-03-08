@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import IndexPage from '@/components/pages/IndexPages'
+import UpdatePortofolioForm from '@/components/portofolios/UpdatePortofolio'
 import { useParams } from 'next/navigation'
 
 const Page = () => {
@@ -13,7 +13,7 @@ const Page = () => {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg text-gray-500">
-                        <IndexPage pageId={pageId} />
+                        <UpdatePortofolioForm pageId={pageId} />
                     </div>
                 </div>
             </div>

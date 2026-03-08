@@ -1,10 +1,10 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import IndexPage from "@/components/pages/IndexPages"
+import IndexPortofolios from "@/components/portofolios/IndexPortofolios"
 
 export default function SlugPage() {
     const { slug } = useParams<{ slug: string }>()
 
-    return <IndexPage pageId={slug} />
+    return <IndexPortofolios pageId={slug} />
 }

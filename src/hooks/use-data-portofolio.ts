@@ -9,31 +9,31 @@ const fetcher = async (url: string) => {
 };
 
 // Fungsi mengambil semua data (admin)
-export function useGetPages() {
-    const { data, error, isLoading } = useSWR('/api/admin/pages', fetcher);
+export function useGetPortofolios() {
+    const { data, error, isLoading } = useSWR('/api/admin/portfolios', fetcher);
     return { data, error, isLoading };
 }
 
 // Fungsi ambil data sesuai id (admin)
-export function useGetPagesById(id: string) {
-    const { data, error, isLoading } = useSWR(id ? `/api/admin/pages/${id}` : null, fetcher);
-    console.log(data);
+export function useGetPortofolioById(id: string) {
+    const { data, error, isLoading } = useSWR(id ? `/api/admin/portfolios/${id}` : null, fetcher);
+    console.log(data)
     return { data, error, isLoading };
 }
 
 // Fungsi ambil data sesuai slug (public)
-export function useGetPageBySlug(slug: string) {
-    const { data, error, isLoading } = useSWR(slug ? `/api/pages/${slug}` : null, fetcher);
+export function useGetPortofolioBySlug(slug: string) {
+    const { data, error, isLoading } = useSWR(slug ? `/api/portfolios/${slug}` : null, fetcher);
     return { data, error, isLoading };
 }
 
 
-// CUD Page //
+// CUD Portofolio //
 
 
-// Fungsi membuat page
-export function useCreatePage() {
-    const { trigger, isMutating } = useSWRMutation('/api/admin/pages',
+// Fungsi membuat portofolio
+export function useCreatePortofolio() {
+    const { trigger, isMutating } = useSWRMutation('/api/admin/portfolios',
         async (url, { arg }: { arg: FormData }) => {
             const response = await axios.post(url, arg, {
                 headers: {
@@ -46,10 +46,10 @@ export function useCreatePage() {
     return { mutate: trigger, isPending: isMutating };
 }
 
-// Fungsi update Page
-export function useUpdatePage() {
-    const updatePage = async (id: string, data: FormData) => {
-        const response = await axios.put(`/api/admin/pages/${id}`, data, {
+// Fungsi update Portofolio
+export function useUpdatePortofolio() {
+    const updatePortofolio = async (id: string, data: FormData) => {
+        const response = await axios.put(`/api/admin/portfolios/${id}`, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Accept": "application/json",
@@ -57,14 +57,14 @@ export function useUpdatePage() {
         });
         return response.data.data;
     };
-    return { updatePage };
+    return { updatePortofolio };
 }
 
-// Fungsi delete Page
-export function useDeletePage() {
-    const deletePage = async (id: string) => {
-        const response = await axios.delete(`/api/admin/pages/${id}`);
+// Fungsi delete Portofolio
+export function useDeletePortofolio() {
+    const deletePortofolio = async (id: string) => {
+        const response = await axios.delete(`/api/admin/portfolios/${id}`);
         return response.data.data;
     };
-    return { deletePage };
+    return { deletePortofolio };
 }

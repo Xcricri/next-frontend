@@ -1,5 +1,5 @@
 import React from "react"
-import { useGetPageBySlug } from "@/hooks/use-data-page"
+import { useGetPortofolioBySlug } from "@/hooks/use-data-portofolio"
 import Image from "next/image"
 
 import {
@@ -12,21 +12,24 @@ import {
 
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { typePortoImage } from "@/types/PortofolioImage"
 
-const IndexPage = ({ pageId }: { pageId?: string }) => {
-    const { data, isLoading } = useGetPageBySlug(pageId || "")
+import { getImageUrl } from "../../../function/Image"
+
+const IndexPortofolios = ({ pageId }: { pageId?: string }) => {
+    const { data, isLoading } = useGetPortofolioBySlug(pageId || "")
 
     if (isLoading)
         return (
             <div className="flex justify-center items-center py-20">
-                <p className="text-muted-foreground">Loading page...</p>
+                <p className="text-muted-foreground">Loading portofolio...</p>
             </div>
         )
 
     if (!data)
         return (
             <div className="flex justify-center items-center py-20">
-                <p className="text-destructive font-medium">Page not found</p>
+                <p className="text-destructive font-medium">Portofolio not found</p>
             </div>
         )
 
@@ -55,13 +58,33 @@ const IndexPage = ({ pageId }: { pageId?: string }) => {
                 {data.main_image_url && (
                     <div className="px-6 pt-6">
                         <Image
-                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${data.main_image_url}`}
+                            src={getImageUrl(data.main_image_url)}
                             alt={data.title}
                             width={800}
                             height={400}
                             className="rounded-lg w-full object-cover"
                             unoptimized
                         />
+                    </div>
+                )}
+
+
+                {/* Gallery */}
+                {data.images && data.images.length > 0 && (
+                    <div className="px-6 pt-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {data.images.map((img: typePortoImage, index: number) => (
+                                <Image
+                                    key={img.id}
+                                    src={getImageUrl(img.image_url)}
+                                    alt={img.caption || `${data.title} ${index + 1}`}
+                                    width={400}
+                                    height={300}
+                                    className="rounded-lg w-full object-cover"
+                                    unoptimized
+                                />
+                            ))}
+                        </div>
                     </div>
                 )}
 
@@ -76,4 +99,4 @@ const IndexPage = ({ pageId }: { pageId?: string }) => {
     )
 }
 
-export default IndexPage
+export default IndexPortofolios

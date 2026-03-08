@@ -8,11 +8,7 @@ const nextConfig: NextConfig = {
                 hostname: 'localhost',
                 port: '8000',
                 pathname: '/storage/**',
-            },
-            {
-                protocol: 'https',
-                hostname: 'd1bpj0tv6vfxyp.cloudfront.net',
-            },
+            }
         ]
     }
 }

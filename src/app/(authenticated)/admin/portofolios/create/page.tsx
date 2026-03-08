@@ -1,19 +1,16 @@
 "use client"
 
 import React from 'react'
-import IndexPage from '@/components/pages/IndexPages'
-import { useParams } from 'next/navigation'
+
+import CreatePortofolioForm from '@/components/portofolios/CreatePortoPages'
 
 const Page = () => {
-    const params = useParams()
-    const pageId = params.id as string
-
     return (
         <>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg text-gray-500">
-                        <IndexPage pageId={pageId} />
+                        <CreatePortofolioForm />
                     </div>
                 </div>
             </div>

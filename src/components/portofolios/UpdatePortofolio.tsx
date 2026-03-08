@@ -12,20 +12,24 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
-import { useUpdatePage, useGetPagesById } from "@/hooks/use-data-page";
+import { useUpdatePortofolio, useGetPortofolioById } from "@/hooks/use-data-portofolio";
+
 import { getImageUrl } from "../../../function/Image";
+import { typePortoImage } from "@/types/PortofolioImage";
 
 interface FormValues {
-    title: string;
-    slug: string;
-    content: string;
-    main_image_url?: FileList;
+    title: string
+    slug: string
+    short_description: string
+    full_content: string
+    main_image_url: FileList | null
 }
 
 const schema = Yup.object({
     title: Yup.string().required("Title is required"),
     slug: Yup.string().required("Slug is required"),
-    content: Yup.string().required("Content is required"),
+    short_description: Yup.string().required("Short description is required"),
+    full_content: Yup.string().required("Full content is required"),
     main_image_url: Yup.mixed()
         .nullable()
         .test("fileSize", "Max size is 2MB", (value) => {
@@ -38,7 +42,7 @@ const schema = Yup.object({
         }),
 });
 
-export default function UpdatePageForm({ pageId }: { pageId?: string }) {
+export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
     const {
         register,
         handleSubmit,
@@ -48,17 +52,20 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
         resolver: yupResolver(schema) as any,
     });
 
-    const { updatePage } = useUpdatePage();
-    const { data, isLoading } = useGetPagesById(pageId || "");
+    const { updatePortofolio } = useUpdatePortofolio();
+    const { data, isLoading } = useGetPortofolioById(pageId || "");
+
+    const [galleryImages, setGalleryImages] = useState<File[]>([]);
+    const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
 
     const [preview, setPreview] = useState<string | null>(null);
-
     useEffect(() => {
         if (!data) return;
 
         setValue("title", data.title);
         setValue("slug", data.slug);
-        setValue("content", data.content);
+        setValue("short_description", data.short_description);
+        setValue("full_content", data.full_content);
     }, [data, setValue]);
 
     useEffect(() => {
@@ -72,13 +79,18 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
 
         formData.append("title", form.title);
         formData.append("slug", form.slug);
-        formData.append("content", form.content);
+        formData.append("short_description", form.short_description);
+        formData.append("full_content", form.full_content);
 
         if (form.main_image_url?.[0]) {
             formData.append("main_image", form.main_image_url[0]);
         }
 
-        updatePage(pageId || "", formData);
+        galleryImages.forEach((file) => {
+            formData.append("images[]", file);
+        });
+
+        updatePortofolio(pageId || "", formData);
     };
 
     if (isLoading) return <p>Loading...</p>;
@@ -88,8 +100,8 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Update Page</CardTitle>
-                <CardDescription>Edit page information</CardDescription>
+                <CardTitle>Update Portofolio</CardTitle>
+                <CardDescription>Edit portofolio information</CardDescription>
             </CardHeader>
 
             <CardContent>
@@ -114,12 +126,21 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
                             )}
                         </Field>
 
-                        {/* Content */}
+                        {/* Short Description */}
                         <Field>
-                            <FieldLabel>Content</FieldLabel>
-                            <Textarea {...register("content")} />
-                            {errors.content && (
-                                <p className="text-red-500 text-sm">{errors.content.message}</p>
+                            <FieldLabel>Short Description</FieldLabel>
+                            <Textarea {...register("short_description")} />
+                            {errors.short_description && (
+                                <p className="text-red-500 text-sm">{errors.short_description.message}</p>
+                            )}
+                        </Field>
+
+                        {/* Full Content */}
+                        <Field>
+                            <FieldLabel>Full Content</FieldLabel>
+                            <Textarea {...register("full_content")} />
+                            {errors.full_content && (
+                                <p className="text-red-500 text-sm">{errors.full_content.message}</p>
                             )}
                         </Field>
 
@@ -152,20 +173,19 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
                                     <p className="text-sm text-gray-500">New Image Preview</p>
                                     <Image
                                         src={preview}
-                                        width={200}
-                                        height={150}
-                                        alt="preview"
-                                        className="rounded object-cover"
+                                        width={600}
+                                        height={400}
+                                        alt={data.title}
                                     />
                                 </div>
                             )}
 
                             {/* Gambar lama */}
-                            {!preview && getImageUrl(data.main_image_url) && (
+                            {!preview && data.main_image_url && (
                                 <div className="mt-3">
                                     <p className="text-sm text-gray-500">Current Image</p>
                                     <Image
-                                        src={getImageUrl(data.main_image_url)}
+                                        src={getImageUrl(data.main_image_url || '')}
                                         width={200}
                                         height={150}
                                         alt="current image"
@@ -177,8 +197,60 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
 
                         </Field>
 
+                        {/* Gallery Images */}
+                        <Field>
+                            <FieldLabel htmlFor="gallery_images">
+                                Gallery-Image
+                            </FieldLabel>
+
+
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={(e) => {
+                                    const files = Array.from(e.target.files || []);
+                                    setGalleryImages(files);
+                                    setGalleryPreviews(files.map(file => URL.createObjectURL(file)));
+                                }}
+                            />
+
+                            {galleryPreviews.length > 0 && (
+                                <div className="grid grid-cols-4 gap-2 mt-4">
+                                    {galleryPreviews.map((src, i) => (
+                                        <Image
+                                            key={i}
+                                            src={src}
+                                            width={96}
+                                            height={96}
+                                            alt={`Gallery preview ${i + 1}`}
+                                            className="rounded object-cover border-2 border-gray-200"
+                                            unoptimized
+                                        />
+                                    ))}
+                                </div>
+                            )}
+
+
+                            {data?.images && data.images.length > 0 && (
+                                <div className="grid grid-cols-4 gap-2 mt-4">
+                                    {data.images.map((img: typePortoImage) => (
+                                        <Image
+                                            key={img.id}
+                                            src={getImageUrl(img.image_url)}
+                                            alt={img.caption || "Gallery image"}
+                                            width={96}
+                                            height={96}
+                                            className="rounded object-cover border-2 border-gray-200"
+                                            unoptimized
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </Field>
+
                         <Button type="submit" disabled={isLoading}>
-                            Update Page
+                            Update Portofolio
                         </Button>
 
                     </FieldGroup>

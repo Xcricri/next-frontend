@@ -15,6 +15,8 @@ import { UserType } from '@/types/User'
 import { useAuth } from '@/hooks/auth'
 import { Badge } from '../ui/badge'
 
+import { getImageUrl } from '../../../function/Image'
+
 
 const roleBadge = (role: string) => {
     switch (role) {
@@ -58,6 +60,10 @@ const Navigation = ({ user }: { user: UserType }) => {
 
                             <NavLink href="/admin/pages" active={pathname === '/admin/pages'}>
                                 Pages
+                            </NavLink>
+
+                            <NavLink href="/admin/portofolios" active={pathname === '/admin/portofolios'}>
+                                Portofolios
                             </NavLink>
                         </div>
                     </div>
@@ -148,6 +154,13 @@ const Navigation = ({ user }: { user: UserType }) => {
                             Pages
                         </ResponsiveNavLink>
                     </div>
+                    <div className="pt-2 pb-2 space-y-1">
+                        <ResponsiveNavLink
+                            href="/admin/portofolios"
+                            active={pathname === '/admin/portofolios'}>
+                            Portofolios
+                        </ResponsiveNavLink>
+                    </div>
 
                     {/* Responsive Settings Options */}
                     <div className="pt-4 pb-1 border-t border-gray-200">
@@ -155,7 +168,7 @@ const Navigation = ({ user }: { user: UserType }) => {
                             <div className="shrink-0">
                                 {user?.avatar ? (
                                     <Image
-                                        src={`http://localhost:8000/storage/${user.avatar}`}
+                                        src={getImageUrl(user.avatar)}
                                         width={40}
                                         height={40}
                                         alt="Picture of the author"
