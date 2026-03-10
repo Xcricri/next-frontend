@@ -21,7 +21,6 @@ import { useCreatePage } from '@/hooks/use-data-page'
 // Type Create form
 interface CreatePageFormValues {
     title: string,
-    slug: string,
     content: string,
     main_image_url: FileList | null
 }
@@ -29,7 +28,6 @@ interface CreatePageFormValues {
 // Yup Schema
 const createYupSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
-    slug: Yup.string().required("Slug is required"),
     content: Yup.string().required("Content is required"),
     main_image_url: Yup.mixed().nullable()
         .test("required", "Main image URL is required", (value) => {
@@ -82,7 +80,6 @@ const CreatePageForm = () => {
 
                             // Append form data
                             formData.append("title", data.title)
-                            formData.append("slug", data.slug)
                             formData.append("content", data.content)
                             if (data.main_image_url && data.main_image_url instanceof FileList && data.main_image_url.length > 0) {
                                 formData.append("main_image", data.main_image_url[0])
@@ -97,13 +94,6 @@ const CreatePageForm = () => {
                                 <FieldLabel htmlFor="title">Title</FieldLabel>
                                 <Input id="title" type="text" placeholder="Page Title" {...register("title")} />
                                 {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
-                            </Field>
-
-                            {/* Slug */}
-                            <Field>
-                                <FieldLabel htmlFor="slug">Slug</FieldLabel>
-                                <Input id="slug" type="text" placeholder="page-slug" {...register("slug")} />
-                                {errors.slug && <p className="text-red-500 text-sm">{errors.slug.message}</p>}
                             </Field>
 
                             {/* Content */}
