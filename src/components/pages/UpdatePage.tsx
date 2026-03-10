@@ -21,7 +21,6 @@ import { getImageUrl } from "../../../function/Image";
 
 interface FormValues {
     title: string;
-    slug: string;
     content: string;
     main_image_url?: FileList;
 }
@@ -29,7 +28,6 @@ interface FormValues {
 // Yup schema
 const schema = Yup.object({
     title: Yup.string().required("Title is required"),
-    slug: Yup.string().required("Slug is required"),
     content: Yup.string().required("Content is required"),
     main_image_url: Yup.mixed()
         .nullable()
@@ -68,7 +66,6 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
         if (!data) return;
 
         setValue("title", data.title);
-        setValue("slug", data.slug);
         setValue("content", data.content);
     }, [data, setValue]);
 
@@ -84,7 +81,6 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
         const formData = new FormData();
 
         formData.append("title", form.title);
-        formData.append("slug", form.slug);
         formData.append("content", form.content);
 
         if (form.main_image_url?.[0]) {
@@ -118,15 +114,6 @@ export default function UpdatePageForm({ pageId }: { pageId?: string }) {
                             <Input {...register("title")} />
                             {errors.title && (
                                 <p className="text-red-500 text-sm">{errors.title.message}</p>
-                            )}
-                        </Field>
-
-                        {/* Slug */}
-                        <Field>
-                            <FieldLabel>Slug</FieldLabel>
-                            <Input {...register("slug")} />
-                            {errors.slug && (
-                                <p className="text-red-500 text-sm">{errors.slug.message}</p>
                             )}
                         </Field>
 

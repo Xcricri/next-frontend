@@ -25,7 +25,6 @@ import { typePortoImage } from "@/types/PortofolioImage";
 // Interface form
 interface FormValues {
     title: string
-    slug: string
     short_description: string
     full_content: string
     main_image_url: FileList | null
@@ -34,7 +33,6 @@ interface FormValues {
 // Yup schema
 const schema = Yup.object({
     title: Yup.string().required("Title is required"),
-    slug: Yup.string().required("Slug is required"),
     short_description: Yup.string().required("Short description is required"),
     full_content: Yup.string().required("Full content is required"),
     main_image_url: Yup.mixed()
@@ -75,7 +73,6 @@ export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
         if (!data) return;
 
         setValue("title", data.title);
-        setValue("slug", data.slug);
         setValue("short_description", data.short_description);
         setValue("full_content", data.full_content);
     }, [data, setValue]);
@@ -92,7 +89,6 @@ export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
         const formData = new FormData();
 
         formData.append("title", form.title);
-        formData.append("slug", form.slug);
         formData.append("short_description", form.short_description);
         formData.append("full_content", form.full_content);
 
@@ -130,15 +126,6 @@ export default function UpdatePortofolioForm({ pageId }: { pageId?: string }) {
                             <Input {...register("title")} />
                             {errors.title && (
                                 <p className="text-red-500 text-sm">{errors.title.message}</p>
-                            )}
-                        </Field>
-
-                        {/* Slug */}
-                        <Field>
-                            <FieldLabel>Slug</FieldLabel>
-                            <Input {...register("slug")} />
-                            {errors.slug && (
-                                <p className="text-red-500 text-sm">{errors.slug.message}</p>
                             )}
                         </Field>
 
