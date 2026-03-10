@@ -1,7 +1,7 @@
 "use client";
 
 // Import component
-import { CreateUserForm } from "@/components/users/CreateUserForm"
+import { CreateUserForm } from "@/components/Users/CreateUserForm";
 
 export default function Page() {
     return (

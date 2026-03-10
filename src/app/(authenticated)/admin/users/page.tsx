@@ -2,7 +2,7 @@
 
 // Other import
 import React from 'react'
-import { TableUser } from '@/components/users/TableUser';
+import { TableUser } from '@/components/Users/TableUser';
 import Link from 'next/dist/client/link';
 
 const Page = () => {
