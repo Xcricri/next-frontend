@@ -1,21 +1,17 @@
 "use client"
 
-// Other import
 import React from 'react'
-import IndexPortofolios from '@/components/Portofolios/IndexPortofolios'
-import { useParams } from 'next/navigation'
+
+// Component import
+import { CreateServiceForm } from '@/components/Service/CreateServiceForm'
 
 const Page = () => {
-    // Ambil id dari parameter
-    const params = useParams()
-    const pageId = params.id as string
-
     return (
         <>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg text-gray-500">
-                        <IndexPortofolios pageId={pageId} />
+                        <CreateServiceForm />
                     </div>
                 </div>
             </div>

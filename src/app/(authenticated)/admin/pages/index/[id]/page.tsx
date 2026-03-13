@@ -2,7 +2,7 @@
 
 // Other import 
 import React from 'react'
-import IndexPage from '@/components/pages/IndexPages'
+import IndexPage from '@/components/Pages/IndexPages'
 import { useParams } from 'next/navigation'
 
 const Page = () => {

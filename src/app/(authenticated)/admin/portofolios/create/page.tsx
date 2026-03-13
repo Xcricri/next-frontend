@@ -3,7 +3,7 @@
 import React from 'react'
 
 // Component import
-import CreatePortofolioForm from '@/components/portofolios/CreatePortoPages'
+import CreatePortofolioForm from '@/components/Portofolios/CreatePortoPages'
 
 const Page = () => {
     return (

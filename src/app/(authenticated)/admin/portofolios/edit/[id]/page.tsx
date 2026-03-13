@@ -2,7 +2,7 @@
 
 // Other import
 import React from 'react'
-import UpdatePortofolioForm from '@/components/portofolios/UpdatePortofolio'
+import UpdatePortofolioForm from '@/components/Portofolios/UpdatePortofolio'
 import { useParams } from 'next/navigation'
 
 const Page = () => {

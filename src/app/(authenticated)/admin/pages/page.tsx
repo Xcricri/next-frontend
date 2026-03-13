@@ -1,7 +1,7 @@
 'use client'
 
 // Other import 
-import { CardPage } from "@/components/pages/CardPage"
+import { CardPage } from "@/components/Pages/CardPage"
 import Link from "next/link"
 
 const Page = () => {

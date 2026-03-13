@@ -3,7 +3,7 @@
 import React from 'react'
 
 // Import Component
-import CreatePageForm from '@/components/pages/CreatePageForm'
+import CreatePageForm from '@/components/Pages/CreatePageForm'
 
 const Page = () => {
     return (

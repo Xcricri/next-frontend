@@ -2,7 +2,7 @@
 
 // Other import
 import React from 'react'
-import UpdatePageForm from '@/components/pages/UpdatePage'
+import UpdatePageForm from '@/components/Pages/UpdatePage'
 import { useParams } from 'next/navigation'
 
 const Page = () => {
